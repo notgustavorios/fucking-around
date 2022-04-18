@@ -19,12 +19,39 @@ public class MySorts {
        printArray(numbers);
    }
    
-   
-   private static void printArray(int[] array){
-       for(int num: array){
-           System.out.println(num + ", ")
+   public static void quicksort(int[] array, int lowIndex, int highIndex){
+       
+       if(lowIndex >= highIndex){ //array with only one element
+           return;
        }
        
+       int pivot = array[highIndex];
+       
+       int leftPointer = lowIndex;
+       int rightPointer = highIndex;
+       
+       while(leftPointer < rightPointer){
+           
+           while(array[leftPointer] <= array[rightPointer] && leftPointer < rightPointer){ //walks left pointer up the array untill the element is greater than or equal to the pivot
+               leftPointer++;
+           }
+           while(array[rightPointer] >= array[leftPointer] && rightPointer > leftPointer){
+               rightPointer--;
+           }
+           swap(array, leftPointer, rightPointer);
+           
+       }
+       swap(array, leftPointer, highIndex); // swaps the value that both pointers are pointing at with the pivot. we know pivot is at highIndex 
+       
+       quicksort(array, lowIndex, leftPointer - 1);
+       quicksort(array, leftPointer + 1, highIndex);
+   }
+   
+   private static void printArray(int[] array){
+       for(int i = 0; i < array.length-1;i++){
+           System.out.println(array[i] + ", ");
+       }
+       System.out.println(array[array.length-1]);
    }
    private static void swap(int[] array, int lowerI, int higherI){
       int temp = array[lowerI];
