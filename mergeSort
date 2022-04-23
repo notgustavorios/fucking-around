@@ -1,0 +1,92 @@
+import java.util.Random;
+
+public class MySorts {
+   // implement your quicksort algorithm below
+   public static void main(String[] args){
+       Random rand = new Random();
+       int[] numbers = new int[10];
+       
+       for(int i = 0; i < numbers.length; i++){
+           numbers[i] = rand.nextInt(1000);
+       }
+       
+       System.out.println("Before: ");
+       printArray(numbers);
+       
+        mergeSort(numbers);
+       
+       System.out.println("\nAfter: ");  //not sure why the \n is here
+       printArray(numbers);
+   }
+   public static void mergeSort(int[] inputArray){
+       int inputLength = inputArray.length;
+       
+       if(inputLength < 2){ //array of one element
+           return;
+       }
+       int midIndex = inputLength / 2;
+       int[] leftHalf = new int[midIndex];
+       int[] rightHalf = new int[inputLength - midIndex];
+       
+       for(int i = 0; i < leftHalf.length; i++){
+           leftHalf[i] = inputArray[i]; 
+       }
+       for(int i = midIndex; i < inputLength; i++){
+           rightHalf[i-midIndex] = inputArray[i]; // make sure you see the index for left Half and input array
+       }
+       
+       mergeSort(leftHalf);
+       mergeSort(rightHalf);
+       
+       mergeHelper(inputArray, leftHalf, rightHalf);
+       
+       
+   }
+   private static void mergeHelper(int[] inputArray, int[] leftHalf, int[] rightHalf){
+       int leftSize = leftHalf.length;
+       int rightSize = rightHalf.length;
+       
+       int i = 0; 
+       int j = 0;
+       int k = 0;
+       
+       while(i < leftSize && j < rightSize){
+           if(leftHalf[i] <= rightHalf[j]){
+               inputArray[k] = leftHalf[i];
+               i++;
+           }
+           else{
+               inputArray[k] = rightHalf[j];
+               j++;
+           }
+           k++;
+       }
+       while(i < leftSize){
+           inputArray[k] = leftHalf[i];
+           i++;
+           k++;
+       }
+       while(j < rightSize){
+           inputArray[k] = rightHalf[j];
+           j++;
+           k++;
+       }
+   }
+   private static void printArray(int[] array){
+       for(int i = 0; i < array.length-1;i++){
+           System.out.println(array[i] + ", ");
+       }
+       System.out.println(array[array.length-1]);
+       
+       boolean check = false;
+       for(int i = 0; i < array.length-1; i++){
+           if(array[i] > array[i+1]){
+               check = true;
+           }
+       }
+       if(!check){
+           System.out.println("SUCCESS");
+       }
+   }
+   
+}
